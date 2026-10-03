@@ -64,17 +64,17 @@ export function mountStatusBadge(opts: {
     display: "flex",
     alignItems: "center",
     gap: "8px",
-    padding: "6px 12px",
-    border: "none",
+    padding: "7px 14px",
+    border: "2px solid #888",
     borderRadius: "999px",
     background: "rgba(22, 22, 26, 0.88)",
     color: "#fff",
-    font: "500 13px/1.2 system-ui, sans-serif",
+    font: "600 14px/1.2 system-ui, sans-serif",
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.35)",
     cursor: "pointer",
   } satisfies Partial<CSSStyleDeclaration>);
   const dot = document.createElement("span");
-  Object.assign(dot.style, { width: "10px", height: "10px", borderRadius: "50%", flex: "none" });
+  Object.assign(dot.style, { width: "12px", height: "12px", borderRadius: "50%", flex: "none" });
   const label = document.createElement("span");
   button.append(dot, label);
   document.body.append(button);
@@ -82,6 +82,7 @@ export function mountStatusBadge(opts: {
   const render = () => {
     if (status === undefined) {
       dot.style.background = "#888";
+      button.style.borderColor = "#888";
       label.textContent = "Checking the Game Master…";
       button.dataset.state = "checking";
       button.title = "";
@@ -89,6 +90,7 @@ export function mountStatusBadge(opts: {
     }
     const view = badgeView(status, using);
     dot.style.background = COLORS[view.tone];
+    button.style.borderColor = COLORS[view.tone];
     label.textContent = view.text;
     button.dataset.state = view.tone;
     button.title = view.reload ? "Reload the page" : "Check again";
