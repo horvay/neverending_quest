@@ -102,8 +102,11 @@ function warmModel(): void {
  * Keep `--app-height` equal to the *visible* viewport. Mobile Safari does not
  * resize the layout viewport for the on-screen keyboard (and 100vh includes
  * the collapsed address bar), so a 100vh book leaves the composer hidden
- * under the keyboard or the toolbar. We also pin the window scroll to the top
- * of the visual viewport so the fixed-height book lines up with what is shown.
+ * under the keyboard or the toolbar. While the page is one fixed-height book
+ * (the body does not scroll), we also pin the window scroll to the top of the
+ * visual viewport so the book lines up with what is shown. A page that scrolls
+ * (Home on a phone) is left alone: its address bar collapsing as the player
+ * scrolls down resizes the viewport too, and pinning then threw them back up.
  */
 function trackVisualViewport(): void {
   const vv = window.visualViewport;
@@ -113,7 +116,8 @@ function trackVisualViewport(): void {
       "--app-height",
       `${Math.round(vv.height)}px`,
     );
-    if (window.scrollY !== 0 || vv.offsetTop !== 0) {
+    const fixed = getComputedStyle(document.body).overflowY === "hidden";
+    if (fixed && (window.scrollY !== 0 || vv.offsetTop !== 0)) {
       window.scrollTo(0, 0);
     }
   };

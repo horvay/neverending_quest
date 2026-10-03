@@ -333,3 +333,40 @@ test("on the OpenRouter backup the badge says so, and that the main Game Master 
     (document.getElementById("nq-gm-status")?.textContent ?? "").includes("the main one is back, tap to reload"),
   );
 });
+
+test("on a phone, Home scrolls without being thrown back up, and the badge leaves the leaf's links tappable", async () => {
+  stack = await startHostedStack({ steps: [] });
+  const url = serveSite(stack);
+  context = await browser.createBrowserContext();
+  const page = await context.newPage();
+  const phone = { width: 390, height: 844, isMobile: true, hasTouch: true };
+  await page.setViewport(phone);
+  await page.goto(url);
+  await waitForText(page, "Brinewatch");
+
+  // Home is taller than the phone; the address bar folding away as the player
+  // scrolls down resizes the viewport, and the page must stay where they put it
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  const scrolled = await page.evaluate(() => window.scrollY);
+  expect(scrolled).toBeGreaterThan(100);
+  await page.setViewport({ ...phone, height: 900 });
+  await page.waitForFunction(() => getComputedStyle(document.documentElement).getPropertyValue("--app-height") === "900px");
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(scrolled - 60);
+
+  // in the book, a tap on either head link reaches it, not the badge
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await clickButton(page, "Brinewatch");
+  await page.waitForSelector("input");
+  await clickButton(page, "BEGIN");
+  await page.waitForSelector(".rail-toggle");
+  await page.waitForFunction(() => document.getElementById("nq-gm-status")?.dataset.state === "online");
+  const tapped = await page.evaluate(() =>
+    [".leave", ".rail-toggle"].map((sel) => {
+      const r = document.querySelector(sel)!.getBoundingClientRect();
+      return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.closest(sel) !== null;
+    }),
+  );
+  expect(tapped).toEqual([true, true]);
+  await page.tap(".rail-toggle");
+  await waitForText(page, "Quest Log");
+});
