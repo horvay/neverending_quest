@@ -1,0 +1,10 @@
+name: Memory Gym
+description: >
+  Tiny eval Seed Pack for Memory Hygiene and rebuild-compaction.
+  Planted canary strings (CANARY-BELL-7E, Salt-lung, Tide Choir, Mira Venn,
+  Kell Reed) make disk scoring deterministic. Not a play-first adventure pack.
+version: "1.0"
+notes: >
+  Birth with `nq new <path> --pack tests/eval/packs/memory-gym`. Live eval
+  overlay and scoring live under tests/eval/. pack.yaml is authoring metadata
+  only. Not listed on Home.

@@ -1,0 +1,10 @@
+name: Brinewatch
+description: >
+  Mid-size coastal sandbox Seed Pack for play and for the long-session
+  Memory Hygiene / rebuild-compaction eval. One-dock salt village plus
+  neighboring Grey Spit, customs, and a small recurring cast.
+version: "1.0"
+notes: >
+  Birth with `nq new <path> --pack packs/brinewatch`. Long-eval overlay
+  and transcript generator live under tests/eval/. pack.yaml is authoring
+  metadata only.

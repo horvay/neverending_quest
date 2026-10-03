@@ -1,0 +1,10 @@
+name: Hunter's Writ
+description: >
+  Fantasy bounty hunting in a world of elves, dwarves, fey, and monster girls.
+  You describe your hunter; the Game Master hands you the first writ.
+version: "1.0"
+notes: >
+  Public sibling of the private Fredicus pack, built for the Hosted book: same
+  world and NPC rules, no curse, no feral monster girls, and the player makes
+  their own character. pack.yaml is authoring metadata only; nq new does not
+  copy this file into the Campaign.

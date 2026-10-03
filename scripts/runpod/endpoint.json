@@ -1,0 +1,57 @@
+{
+  "name": "nq-qwen27b",
+  "type": "LOAD_BALANCER",
+  "image": "ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:1f4b9cf58982dd4d7cc497aea31b1a456ca9a3a1f94f527d317d3fdee0d60ab6",
+  "entrypoint": [
+    "/bin/bash",
+    "-c"
+  ],
+  "cmd": [
+    "<composed by scripts/runpod/deploy.ts: worker bundle + boot.sh>"
+  ],
+  "disk": 40,
+  "ports": [
+    "8080/http"
+  ],
+  "env": {
+    "PORT": "8080",
+    "PORT_HEALTH": "8080",
+    "HEALTH_CHECK_PATH": "/ping",
+    "ATOMIC_URL": "https://github.com/AtomicBot-ai/atomic-llama-cpp-turboquant/releases/download/b10269-1.6.0/llama-turboquant-linux-x64-cuda-12.4.tar.gz",
+    "MODEL_URL": "https://huggingface.co/mradermacher/Qwen3.8-27B-Heretic-JP-Roleplay-NSFW-GGUF/resolve/main/Qwen3.8-27B-Heretic-JP-Roleplay-NSFW.Q5_K_M.gguf",
+    "ALIAS": "qwen3.8-27b-heretic-jp-roleplay-nsfw.q5_k_m",
+    "CTX": "45056",
+    "CACHE_K": "q8_0",
+    "CACHE_V": "turbo4",
+    "REASONING": "2000",
+    "EXTRA_ARGS": "-lm dio",
+    "NODE_URL": "https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.gz",
+    "NQ_SEAL_KEY": "<set by deploy.ts from ~/.config/nq/seal-worker.json; never commit>",
+    "NQ_SEAL_DEBUG": "1"
+  },
+  "gpu": {
+    "pools": [
+      "ADA_24",
+      "AMPERE_24"
+    ],
+    "count": 1,
+    "minCudaVersion": "12.4",
+    "excludedTypes": [
+      "NVIDIA L4",
+      "NVIDIA RTX PRO 6000 Blackwell Server Edition MIG 1g.24gb"
+    ]
+  },
+  "workers": {
+    "min": 0,
+    "max": 1,
+    "idleTimeout": 15
+  },
+  "scaling": {
+    "type": "REQUEST_COUNT",
+    "requestCount": 1
+  },
+  "flashboot": "FLASHBOOT",
+  "networkVolumes": [
+    "<nq-models volume id>"
+  ]
+}

@@ -1,0 +1,4 @@
+- buy Mira a lemon
+- recover the drowned bell from the brine-well
+- ask Kell about the fog-neap
+- take a Grey Spit hop if Kell will go

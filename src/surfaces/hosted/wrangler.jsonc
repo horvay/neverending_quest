@@ -1,0 +1,56 @@
+// The hosted book on Cloudflare (ADR-0008): static assets plus the relay
+// Worker. Build the assets first: `bun run hosted:build`.
+//
+// Keys are secrets, never vars:
+//   bunx wrangler secret put OPENROUTER_API_KEY -c src/surfaces/hosted/wrangler.jsonc < .openrouter-api
+//   bunx wrangler secret put RUNPOD_API_KEY -c src/surfaces/hosted/wrangler.jsonc
+//   jq -r .token ~/.config/nq/share.json | bunx wrangler secret put LOCAL_GM_TOKEN -c src/surfaces/hosted/wrangler.jsonc
+// Locally, put it in src/surfaces/hosted/.dev.vars (gitignored) as RUNPOD_API_KEY=…
+{
+  "name": "neverending-quest",
+  "main": "relay.ts",
+  "compatibility_date": "2025-09-01",
+  // lets a Stop in the book cancel the Runpod request, so the GPU stops too
+  "compatibility_flags": ["enable_request_signal"],
+  "assets": {
+    "directory": "../../../dist/hosted",
+    "binding": "ASSETS",
+    // only relay calls wake the Worker; the book itself is served as static assets
+    "run_worker_first": ["/relay/*"],
+    // an adventure's address (/play/…) loads the book, which opens it
+    "not_found_handling": "single-page-application"
+  },
+  "vars": {
+    // which Game Master serves the book: "local" (the owner's computer, running
+    // `nq local share`; OpenRouter stands in while it is away), "openrouter",
+    // or "runpod" (our sealed GPU worker)
+    "GM_BACKEND": "local",
+    // `nq local share --keys` prints it (safe to publish)
+    "LOCAL_WORKER_KEY": "/Cm1HDMlff4PT6O/p1DSDQf5tNZHjG+utvFv9UYrIYc=",
+    "LOCAL_MODEL_NAME": "Twilight Embrace 31B",
+    // OpenRouter: the relay forces this model, zero data retention and no
+    // training on every call. Its key is a secret (OPENROUTER_API_KEY), read
+    // from .openrouter-api at the repo root, which git ignores.
+    "OPENROUTER_MODEL": "deepseek/deepseek-v4-flash",
+    // only zero-retention providers whose terms we have read and that fit the book
+    "OPENROUTER_ONLY": "deepinfra,venice,parasail",
+    // sampling for roleplay. Raw values reach the model here: DeepSeek's own API
+    // rescales temperature (its "1.5 for creative writing" is ~0.8 at the model),
+    // and V4 Flash's model card suggests 1.0 / 1.0 for direct serving.
+    "OPENROUTER_TEMPERATURE": "1.5",
+    "OPENROUTER_TOP_P": "1.0",
+    // never route to providers whose terms ban the book's content (or that train by default)
+    "OPENROUTER_IGNORE": "novita,mancer,alibaba,together,fireworks,cerebras,nebius",
+    "RUNPOD_UPSTREAM": "https://kq99ko5c97bdrk.api.runpod.ai",
+    // the GPU worker's public identity key (safe to publish)
+    "WORKER_KEY": "cUzga2J5LQ172Dezu3aazGTzwp1uqMg4Tp1gsyuhOtM="
+  },
+  // the owner's computer: a Workers VPC service over the Cloudflare Tunnel
+  // "nq-local-gm" (cloudflared on that computer), reaching the seal worker on
+  // its 127.0.0.1:8787. It has no public hostname.
+  "vpc_services": [
+    { "binding": "LOCAL_GM", "service_id": "01a0fb0d-6546-7481-9e75-3947181e0786", "remote": true }
+  ],
+  "workers_dev": true,
+  "observability": { "enabled": false }
+}

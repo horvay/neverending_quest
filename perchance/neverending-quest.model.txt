@@ -1,0 +1,8 @@
+ai = {import:ai-text-plugin}
+image = {import:text-to-image-plugin}
+
+title
+  Neverending Quest
+
+output
+  Open the book and begin.

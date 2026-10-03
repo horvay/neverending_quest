@@ -1,0 +1,8 @@
+[test]
+# only our suite; the vendored llama.cpp forks ship their own JS tests
+root = "./tests"
+preload = ["./tests/preload_native.ts"]
+
+[install]
+# OMP and the postinstall patches expect one hoisted node_modules tree
+linker = "hoisted"

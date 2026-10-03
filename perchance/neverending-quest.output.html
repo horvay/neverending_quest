@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neverending Quest</title>
+  <link rel="stylesheet" href="data:text/css;charset=utf-8,%0A%20%20%20%20%40import%20url('https%3A%2F%2Ffonts.googleapis.com%2Fcss2%3Ffamily%3DCormorant%2BGaramond%3Awght%40500%3B600%3B700%26family%3DIBM%2BPlex%2BMono%3Awght%40400%3B500%26display%3Dswap')%3B%0A%0A%20%20%20%20%3Aroot%20%7B%0A%20%20%20%20%20%20--ink%3A%20%23162029%3B%0A%20%20%20%20%20%20--ink-soft%3A%20%23243641%3B%0A%20%20%20%20%20%20--paper%3A%20%23e7dbc2%3B%0A%20%20%20%20%20%20--paper-light%3A%20%23f3ead7%3B%0A%20%20%20%20%20%20--paper-deep%3A%20%23cdbd9d%3B%0A%20%20%20%20%20%20--line%3A%20rgba(34%2C%2048%2C%2049%2C%20.22)%3B%0A%20%20%20%20%20%20--rust%3A%20%23a44f35%3B%0A%20%20%20%20%20%20--rust-dark%3A%20%23713725%3B%0A%20%20%20%20%20%20--moss%3A%20%235a6a4f%3B%0A%20%20%20%20%20%20--gold%3A%20%23c99b4d%3B%0A%20%20%20%20%20%20--muted%3A%20%236d6d60%3B%0A%20%20%20%20%20%20--shadow%3A%200%2024px%2070px%20rgba(5%2C%2011%2C%2014%2C%20.35)%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20*%20%7B%20box-sizing%3A%20border-box%3B%20%7D%0A%20%20%20%20html%20%7B%20min-height%3A%20100%25%3B%20background%3A%20%23111a1e%3B%20%7D%0A%20%20%20%20body%20%7B%0A%20%20%20%20%20%20min-height%3A%20100vh%3B%0A%20%20%20%20%20%20margin%3A%200%3B%0A%20%20%20%20%20%20color%3A%20var(--ink)%3B%0A%20%20%20%20%20%20background%3A%0A%20%20%20%20%20%20%20%20radial-gradient(circle%20at%2012%25%208%25%2C%20rgba(201%2C%20155%2C%2077%2C%20.17)%2C%20transparent%2025rem)%2C%0A%20%20%20%20%20%20%20%20radial-gradient(circle%20at%2090%25%2080%25%2C%20rgba(164%2C%2079%2C%2053%2C%20.16)%2C%20transparent%2030rem)%2C%0A%20%20%20%20%20%20%20%20linear-gradient(135deg%2C%20%2310191d%2C%20%231b292d%2048%25%2C%20%2310181c)%3B%0A%20%20%20%20%20%20font-family%3A%20'Cormorant%20Garamond'%2C%20Georgia%2C%20serif%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20button%2C%20input%2C%20textarea%20%7B%20font%3A%20inherit%3B%20%7D%0A%20%20%20%20button%20%7B%20cursor%3A%20pointer%3B%20%7D%0A%20%20%20%20button%3Adisabled%20%7B%20cursor%3A%20wait%3B%20opacity%3A%20.55%3B%20%7D%0A%0A%20%20%20%20.desk%20%7B%0A%20%20%20%20%20%20width%3A%20min(1480px%2C%20100%25)%3B%0A%20%20%20%20%20%20min-height%3A%20100vh%3B%0A%20%20%20%20%20%20margin%3A%200%20auto%3B%0A%20%20%20%20%20%20padding%3A%2028px%20clamp(14px%2C%203vw%2C%2046px)%2042px%3B%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.desk%3A%3Abefore%20%7B%0A%20%20%20%20%20%20content%3A%20''%3B%0A%20%20%20%20%20%20position%3A%20fixed%3B%0A%20%20%20%20%20%20inset%3A%200%3B%0A%20%20%20%20%20%20pointer-events%3A%20none%3B%0A%20%20%20%20%20%20opacity%3A%20.18%3B%0A%20%20%20%20%20%20background-image%3A%20url(%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20viewBox%3D'0%200%20160%20160'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%253E%253Cfilter%20id%3D'n'%253E%253CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'.85'%20numOctaves%3D'4'%20stitchTiles%3D'stitch'%2F%253E%253C%2Ffilter%253E%253Crect%20width%3D'100%2525'%20height%3D'100%2525'%20filter%3D'url(%2523n)'%20opacity%3D'.33'%2F%253E%253C%2Fsvg%253E%22)%3B%0A%20%20%20%20%20%20mix-blend-mode%3A%20soft-light%3B%0A%20%20%20%20%20%20z-index%3A%205%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.masthead%20%7B%0A%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20align-items%3A%20end%3B%0A%20%20%20%20%20%20justify-content%3A%20space-between%3B%0A%20%20%20%20%20%20gap%3A%2020px%3B%0A%20%20%20%20%20%20color%3A%20var(--paper-light)%3B%0A%20%20%20%20%20%20margin-bottom%3A%2022px%3B%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20z-index%3A%201%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.eyebrow%2C%20.label%2C%20.status%2C%20.tab%2C%20.button%2C%20.meta%2C%20.helper%20%7B%0A%20%20%20%20%20%20font-family%3A%20'IBM%20Plex%20Mono'%2C%20monospace%3B%0A%20%20%20%20%20%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20letter-spacing%3A%20.12em%3B%0A%20%20%20%20%20%20font-size%3A%20.68rem%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.eyebrow%20%7B%20color%3A%20var(--gold)%3B%20margin%3A%200%200%207px%3B%20%7D%0A%20%20%20%20h1%20%7B%20margin%3A%200%3B%20font-size%3A%20clamp(2.2rem%2C%205vw%2C%204.6rem)%3B%20line-height%3A%20.8%3B%20font-weight%3A%20600%3B%20letter-spacing%3A%20-.045em%3B%20%7D%0A%20%20%20%20.masthead%20p%20%7B%20max-width%3A%20290px%3B%20margin%3A%200%3B%20color%3A%20rgba(243%2C%20234%2C%20215%2C%20.7)%3B%20font-size%3A%201rem%3B%20line-height%3A%201.15%3B%20%7D%0A%0A%20%20%20%20.book%20%7B%0A%20%20%20%20%20%20display%3A%20grid%3B%0A%20%20%20%20%20%20grid-template-columns%3A%20minmax(0%2C%201.45fr)%20minmax(280px%2C%20.72fr)%3B%0A%20%20%20%20%20%20min-height%3A%20760px%3B%0A%20%20%20%20%20%20background%3A%20var(--paper)%3B%0A%20%20%20%20%20%20box-shadow%3A%20var(--shadow)%3B%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20z-index%3A%201%3B%0A%20%20%20%20%20%20border%3A%201px%20solid%20rgba(231%2C%20219%2C%20194%2C%20.26)%3B%0A%20%20%20%20%20%20overflow%3A%20hidden%3B%0A%20%20%20%20%7D%0A%0A.seed-gate%20%7B%0A%20%20display%3A%20grid%3B%0A%20%20grid-template-columns%3A%20minmax(0%2C%201.35fr)%20minmax(260px%2C%20.65fr)%3B%0A%20%20gap%3A%20clamp(24px%2C%205vw%2C%2072px)%3B%0A%20%20min-height%3A%20560px%3B%0A%20%20padding%3A%20clamp(28px%2C%206vw%2C%2078px)%3B%0A%20%20background%3A%0A%20%20%20%20linear-gradient(90deg%2C%20rgba(243%2C%20234%2C%20215%2C%20.96)%2C%20rgba(231%2C%20219%2C%20194%2C%20.92))%2C%0A%20%20%20%20var(--paper)%3B%0A%20%20box-shadow%3A%20var(--shadow)%3B%0A%20%20border%3A%201px%20solid%20rgba(231%2C%20219%2C%20194%2C%20.26)%3B%0A%20%20position%3A%20relative%3B%0A%20%20z-index%3A%201%3B%0A%7D%0A%0A.seed-gate%5Bhidden%5D%2C%20.book%5Bhidden%5D%20%7B%20display%3A%20none%3B%20%7D%0A.seed-gate%3A%3Aafter%20%7B%0A%20%20content%3A%20''%3B%0A%20%20position%3A%20absolute%3B%0A%20%20top%3A%208%25%3B%0A%20%20bottom%3A%208%25%3B%0A%20%20left%3A%2064%25%3B%0A%20%20width%3A%201px%3B%0A%20%20background%3A%20linear-gradient(transparent%2C%20var(--line)%2012%25%2C%20var(--line)%2088%25%2C%20transparent)%3B%0A%7D%0A.seed-copy%20%7B%20max-width%3A%20760px%3B%20%7D%0A.seed-copy%20h2%20%7B%20margin%3A%2018px%200%2012px%3B%20font-size%3A%20clamp(2.4rem%2C%205vw%2C%205rem)%3B%20line-height%3A%20.9%3B%20font-weight%3A%20600%3B%20letter-spacing%3A%20-.035em%3B%20%7D%0A.seed-copy%20p%20%7B%20max-width%3A%20620px%3B%20margin%3A%200%3B%20font-size%3A%20clamp(1.15rem%2C%201.7vw%2C%201.4rem)%3B%20line-height%3A%201.2%3B%20%7D%0A.seed-field%20%7B%20display%3A%20grid%3B%20gap%3A%208px%3B%20margin-top%3A%2030px%3B%20%7D%0A.seed-field%20textarea%20%7B%20min-height%3A%20170px%3B%20width%3A%20100%25%3B%20resize%3A%20vertical%3B%20padding%3A%2014px%3B%20font-size%3A%201.15rem%3B%20line-height%3A%201.2%3B%20%7D%0A.seed-field%20input%20%7B%20width%3A%20100%25%3B%20padding%3A%2011px%2012px%3B%20%7D%0A.seed-options%20%7B%20display%3A%20grid%3B%20grid-template-columns%3A%20repeat(2%2C%20minmax(0%2C%201fr))%3B%20gap%3A%2010px%3B%20margin-top%3A%2012px%3B%20%7D%0A.seed-meta%20%7B%20display%3A%20flex%3B%20justify-content%3A%20space-between%3B%20gap%3A%2012px%3B%20color%3A%20var(--muted)%3B%20%7D%0A.seed-status%20%7B%20min-height%3A%201.25em%3B%20margin%3A%2014px%200%200%3B%20color%3A%20var(--rust-dark)%3B%20%7D%0A.seed-status.busy%20%7B%20color%3A%20var(--rust)%3B%20%7D%0A.seed-note%20%7B%20align-self%3A%20end%3B%20padding%3A%2022px%200%200%20clamp(0px%2C%202vw%2C%2028px)%3B%20color%3A%20var(--ink-soft)%3B%20%7D%0A.seed-note%20.label%20%7B%20color%3A%20var(--rust-dark)%3B%20%7D%0A.seed-note%20p%20%7B%20margin%3A%2012px%200%200%3B%20font-size%3A%201.12rem%3B%20line-height%3A%201.25%3B%20%7D%0A.seed-note%20blockquote%20%7B%20margin%3A%2028px%200%200%3B%20padding%3A%2018px%200%200%3B%20border-top%3A%201px%20solid%20var(--line)%3B%20font-size%3A%201.35rem%3B%20line-height%3A%201.15%3B%20%7D%0A.seed-note%20cite%20%7B%20display%3A%20block%3B%20margin-top%3A%2012px%3B%20color%3A%20var(--muted)%3B%20font%3A%20.62rem%20'IBM%20Plex%20Mono'%2C%20monospace%3B%20letter-spacing%3A%20.11em%3B%20text-transform%3A%20uppercase%3B%20font-style%3A%20normal%3B%20%7D%0A%0A%20%20%20%20.story-page%2C%20.memory-page%20%7B%20padding%3A%20clamp(22px%2C%204vw%2C%2054px)%3B%20%7D%0A%20%20%20%20.story-page%20%7B%20display%3A%20flex%3B%20flex-direction%3A%20column%3B%20min-width%3A%200%3B%20text-align%3A%20left%3B%20%7D%0A%20%20%20%20.memory-page%20%7B%20background%3A%20rgba(205%2C%20189%2C%20157%2C%20.22)%3B%20min-width%3A%200%3B%20%7D%0A%0A%20%20%20%20.page-kicker%20%7B%20display%3A%20flex%3B%20align-items%3A%20center%3B%20justify-content%3A%20space-between%3B%20gap%3A%2012px%3B%20border-bottom%3A%201px%20solid%20var(--line)%3B%20padding-bottom%3A%2011px%3B%20%7D%0A%20%20%20%20.page-kicker%20.label%20%7B%20color%3A%20var(--rust-dark)%3B%20%7D%0A%20%20%20%20.folio%20%7B%20color%3A%20var(--muted)%3B%20%7D%0A%0A%20%20%20%20.transcript%20%7B%0A%20%20%20%20%20%20flex%3A%201%3B%0A%20%20%20%20%20%20min-height%3A%20420px%3B%0A%20%20%20%20%20%20max-height%3A%20620px%3B%0A%20%20%20%20%20%20overflow%3A%20auto%3B%0A%20%20%20%20%20%20padding%3A%2025px%200%2028px%3B%0A%20%20%20%20%20%20scrollbar-color%3A%20var(--paper-deep)%20transparent%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20.message%20%7B%20width%3A%20100%25%3B%20max-width%3A%20790px%3B%20margin%3A%200%200%2028px%3B%20animation%3A%20arrive%20.45s%20ease%20both%3B%20%7D%0A%20%20%20%20.message.player%20%7B%20margin-left%3A%20auto%3B%20max-width%3A%20640px%3B%20%7D%0A%20%20%20%20.who%20%7B%20display%3A%20flex%3B%20align-items%3A%20baseline%3B%20gap%3A%2010px%3B%20margin-bottom%3A%205px%3B%20%7D%0A%20%20%20%20.who%20strong%20%7B%20font-size%3A%201.02rem%3B%20font-weight%3A%20700%3B%20white-space%3A%20nowrap%3B%20%7D%0A%20%20%20%20.who%20span%20%7B%20color%3A%20var(--muted)%3B%20%7D%0A%20%20%20%20.message%20p%20%7B%20white-space%3A%20pre-wrap%3B%20margin%3A%200%3B%20text-align%3A%20left%3B%20font-size%3A%20clamp(1.18rem%2C%201.7vw%2C%201.42rem)%3B%20line-height%3A%201.18%3B%20%7D%0A%20%20%20%20.message-edit%20%7B%20margin-left%3A%20auto%3B%20border%3A%200%3B%20padding%3A%202px%200%3B%20background%3A%20transparent%3B%20color%3A%20var(--muted)%3B%20font%3A%20.58rem%20'IBM%20Plex%20Mono'%2C%20monospace%3B%20letter-spacing%3A%20.1em%3B%20text-transform%3A%20uppercase%3B%20%7D%0A%20%20%20%20.message-edit%3Ahover%20%7B%20color%3A%20var(--rust-dark)%3B%20%7D%0A%20%20%20%20.message.roll%20%7B%20max-width%3A%20100%25%3B%20margin%3A%20-8px%200%2024px%3B%20padding%3A%209px%2012px%3B%20border-top%3A%201px%20solid%20var(--line)%3B%20border-bottom%3A%201px%20solid%20var(--line)%3B%20color%3A%20var(--rust-dark)%3B%20font%3A%20.67rem%20'IBM%20Plex%20Mono'%2C%20monospace%3B%20letter-spacing%3A%20.03em%3B%20%7D%0A%20%20%20%20.message-editor%20%7B%20width%3A%20100%25%3B%20min-height%3A%20140px%3B%20resize%3A%20vertical%3B%20padding%3A%2013px%2014px%3B%20font-size%3A%201.12rem%3B%20line-height%3A%201.18%3B%20%7D%0A%20%20%20%20.message-edit-actions%2C%20.state-editor-actions%20%7B%20display%3A%20flex%3B%20flex-wrap%3A%20wrap%3B%20gap%3A%208px%3B%20margin-top%3A%209px%3B%20%7D%0A%20%20%20%20.message-edit-actions%20.button%2C%20.state-editor-actions%20.button%20%7B%20font-size%3A%20.58rem%3B%20padding%3A%209px%2011px%3B%20%7D%0A%20%20%20%20.message.player%20p%20%7B%20color%3A%20var(--rust-dark)%3B%20border-left%3A%202px%20solid%20var(--rust)%3B%20padding-left%3A%2014px%3B%20%7D%0A%20%20%20%20.message.gm%20p%3Afirst-letter%20%7B%20font-size%3A%202.8em%3B%20float%3A%20left%3B%20line-height%3A%20.7%3B%20padding%3A%20.1em%20.08em%200%200%3B%20color%3A%20var(--rust)%3B%20%7D%0A%20%20%20%20.empty%20%7B%20color%3A%20var(--muted)%3B%20font-size%3A%201.3rem%3B%20padding%3A%2080px%2020px%3B%20text-align%3A%20center%3B%20%7D%0A%0A%20%20%20%20.composer%20%7B%20border-top%3A%201px%20solid%20var(--line)%3B%20padding-top%3A%2018px%3B%20%7D%0A%20%20%20%20.composer-row%20%7B%20display%3A%20flex%3B%20align-items%3A%20flex-start%3B%20gap%3A%2010px%3B%20%7D%0A%20%20%20%20textarea%2C%20input%2C%20select%20%7B%0A%20%20%20%20%20%20border%3A%201px%20solid%20rgba(34%2C%2048%2C%2049%2C%20.32)%3B%0A%20%20%20%20%20%20background%3A%20rgba(243%2C%20234%2C%20215%2C%20.62)%3B%0A%20%20%20%20%20%20color%3A%20var(--ink)%3B%0A%20%20%20%20%20%20border-radius%3A%200%3B%0A%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%7D%0A%20%20%20%20textarea%3Afocus%2C%20input%3Afocus%2C%20select%3Afocus%20%7B%20border-color%3A%20var(--rust)%3B%20box-shadow%3A%200%200%200%203px%20rgba(164%2C%2079%2C%2053%2C%20.13)%3B%20%7D%0A%20%20%20%20%23action%20%7B%20flex%3A%201%3B%20min-height%3A%2072px%3B%20resize%3A%20vertical%3B%20padding%3A%2013px%2014px%3B%20font-size%3A%201.12rem%3B%20line-height%3A%201.15%3B%20%7D%0A%20%20%20%20.button%20%7B%20border%3A%201px%20solid%20var(--rust-dark)%3B%20padding%3A%2013px%2016px%3B%20background%3A%20var(--rust)%3B%20color%3A%20var(--paper-light)%3B%20transition%3A%20transform%20.18s%20ease%2C%20background%20.18s%20ease%3B%20%7D%0A%20%20%20%20.button%3Ahover%20%7B%20background%3A%20var(--rust-dark)%3B%20transform%3A%20translateY(-2px)%3B%20%7D%0A%20%20%20%20.button.quiet%20%7B%20background%3A%20transparent%3B%20color%3A%20var(--rust-dark)%3B%20border-color%3A%20var(--line)%3B%20%7D%0A%20%20%20%20.button.quiet%3Ahover%20%7B%20background%3A%20rgba(164%2C%2079%2C%2053%2C%20.1)%3B%20%7D%0A%20%20%20%20.helper%20%7B%20color%3A%20var(--muted)%3B%20margin%3A%209px%200%200%3B%20font-size%3A%20.59rem%3B%20letter-spacing%3A%20.08em%3B%20%7D%0A%0A%20%20%20%20.memory-page%20h2%20%7B%20margin%3A%2022px%200%204px%3B%20font-size%3A%202rem%3B%20font-weight%3A%20600%3B%20line-height%3A%201%3B%20%7D%0A%20%20%20%20.memory-page%20.subhead%20%7B%20color%3A%20var(--muted)%3B%20font-size%3A%201rem%3B%20margin%3A%200%200%2019px%3B%20%7D%0A%20%20%20%20.setup%20%7B%20display%3A%20grid%3B%20gap%3A%209px%3B%20padding%3A%2014px%200%2021px%3B%20border-bottom%3A%201px%20solid%20var(--line)%3B%20%7D%0A%20%20%20%20.setup%20input%20%7B%20padding%3A%2010px%2011px%3B%20width%3A%20100%25%3B%20%7D%0A%20%20%20%20.setup%20.button%20%7B%20justify-self%3A%20start%3B%20%7D%0A%0A%20%20%20%20.tabs%20%7B%20display%3A%20flex%3B%20flex-wrap%3A%20wrap%3B%20gap%3A%206px%3B%20margin%3A%2018px%200%2012px%3B%20%7D%0A%20%20%20%20.tab%20%7B%20border%3A%201px%20solid%20var(--line)%3B%20background%3A%20transparent%3B%20color%3A%20var(--muted)%3B%20padding%3A%208px%209px%3B%20%7D%0A%20%20%20%20.tab.active%2C%20.tab%3Ahover%20%7B%20border-color%3A%20var(--rust)%3B%20color%3A%20var(--rust-dark)%3B%20background%3A%20rgba(164%2C%2079%2C%2053%2C%20.08)%3B%20%7D%0A%20%20%20%20.tab%3Afocus-visible%2C%20.button%3Afocus-visible%2C%20textarea%3Afocus-visible%2C%20input%3Afocus-visible%20%7B%20outline%3A%202px%20solid%20var(--rust)%3B%20outline-offset%3A%203px%3B%20%7D%0A%20%20%20%20.memory-view%20%7B%20min-height%3A%20220px%3B%20white-space%3A%20pre-wrap%3B%20font-size%3A%201rem%3B%20line-height%3A%201.22%3B%20border-top%3A%201px%20solid%20var(--line)%3B%20padding-top%3A%2016px%3B%20%7D%0A%20%20%20%20.memory-view%20strong%20%7B%20color%3A%20var(--rust-dark)%3B%20%7D%0A%20%20%20%20.state-editor%20%7B%20margin-top%3A%2020px%3B%20padding-top%3A%2015px%3B%20border-top%3A%201px%20solid%20var(--line)%3B%20%7D%0A%20%20%20%20.state-editor%20summary%20%7B%20cursor%3A%20pointer%3B%20color%3A%20var(--rust-dark)%3B%20font%3A%20.68rem%20'IBM%20Plex%20Mono'%2C%20monospace%3B%20letter-spacing%3A%20.1em%3B%20text-transform%3A%20uppercase%3B%20%7D%0A%20%20%20%20.state-editor%20.helper%20%7B%20margin%3A%2012px%200%208px%3B%20line-height%3A%201.4%3B%20%7D%0A%20%20%20%20%23stateEditor%20%7B%20width%3A%20100%25%3B%20min-height%3A%20230px%3B%20resize%3A%20vertical%3B%20padding%3A%2012px%3B%20background%3A%20rgba(243%2C%20234%2C%20215%2C%20.62)%3B%20color%3A%20var(--ink)%3B%20font%3A%20.72rem%2F1.35%20'IBM%20Plex%20Mono'%2C%20monospace%3B%20%7D%0A%0A%20%20%20%20.tool-row%20%7B%20display%3A%20flex%3B%20flex-wrap%3A%20wrap%3B%20gap%3A%207px%3B%20margin-top%3A%2020px%3B%20padding-top%3A%2015px%3B%20border-top%3A%201px%20solid%20var(--line)%3B%20%7D%0A%20%20%20%20.tool-row%20.button%20%7B%20font-size%3A%20.57rem%3B%20padding%3A%209px%2010px%3B%20%7D%0A%20%20%20%20%23importFile%20%7B%20display%3A%20none%3B%20%7D%0A%20%20%20%20.status-line%20%7B%20margin-top%3A%2017px%3B%20color%3A%20var(--muted)%3B%20min-height%3A%201.2em%3B%20%7D%0A%20%20%20%20.status-line.busy%20%7B%20color%3A%20var(--rust)%3B%20%7D%0A%0A%20%20%20%20.candle%20%7B%0A%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20right%3A%2011px%3B%0A%20%20%20%20%20%20top%3A%2018px%3B%0A%20%20%20%20%20%20width%3A%2010px%3B%0A%20%20%20%20%20%20height%3A%2032px%3B%0A%20%20%20%20%20%20border-radius%3A%205px%205px%202px%202px%3B%0A%20%20%20%20%20%20background%3A%20%23d7c394%3B%0A%20%20%20%20%20%20box-shadow%3A%200%200%2038px%2012px%20rgba(232%2C%20172%2C%2061%2C%20.25)%3B%0A%20%20%20%20%7D%0A%20%20%20%20.candle%3A%3Abefore%20%7B%20content%3A%20''%3B%20position%3A%20absolute%3B%20width%3A%207px%3B%20height%3A%2015px%3B%20left%3A%202px%3B%20top%3A%20-13px%3B%20background%3A%20%23f1b34e%3B%20border-radius%3A%2065%25%2035%25%2060%25%2040%25%3B%20transform%3A%20rotate(8deg)%3B%20animation%3A%20flicker%201.8s%20infinite%20alternate%20ease-in-out%3B%20%7D%0A%20%20%20%20.candle%3A%3Aafter%20%7B%20content%3A%20''%3B%20position%3A%20absolute%3B%20left%3A%20-18px%3B%20right%3A%20-18px%3B%20bottom%3A%20-8px%3B%20height%3A%201px%3B%20background%3A%20var(--gold)%3B%20opacity%3A%20.4%3B%20%7D%0A%20%20%20%20.illustration%20%7B%20margin%3A%2018px%200%202px%3B%20%7D%0A%20%20%20%20.illustration%20img%20%7B%20display%3A%20block%3B%20width%3A%20100%25%3B%20max-height%3A%20360px%3B%20object-fit%3A%20cover%3B%20border%3A%201px%20solid%20var(--line)%3B%20%7D%0A%20%20%20%20.illustration%20.meta%20%7B%20margin-top%3A%208px%3B%20color%3A%20var(--muted)%3B%20%7D%0A%0A%20%20%20%20%40keyframes%20arrive%20%7B%20from%20%7B%20opacity%3A%200%3B%20transform%3A%20translateY(9px)%3B%20%7D%20to%20%7B%20opacity%3A%201%3B%20transform%3A%20translateY(0)%3B%20%7D%20%7D%0A%20%20%20%20%40keyframes%20flicker%20%7B%20from%20%7B%20transform%3A%20rotate(-3deg)%20scale(.92)%3B%20opacity%3A%20.8%3B%20%7D%20to%20%7B%20transform%3A%20rotate(5deg)%20scale(1.08)%3B%20opacity%3A%201%3B%20%7D%20%7D%0A%20%20%20%20%40media%20(max-width%3A%20900px)%20%7B%0A%20%20%20%20%20%20.book%20%7B%20grid-template-columns%3A%201fr%3B%20%7D%0A%20%20%20%20%20%20.memory-page%20%7B%20border-top%3A%201px%20solid%20var(--line)%3B%20%7D%0A%20%20%20%20%20%20.transcript%20%7B%20min-height%3A%20320px%3B%20max-height%3A%20min(52vh%2C%20420px)%3B%20overflow%3A%20auto%3B%20%7D%0A%20%20%20%20%20%20.seed-gate%20%7B%20grid-template-columns%3A%201fr%3B%20min-height%3A%20auto%3B%20%7D%0A%20%20%20%20%20%20.seed-gate%3A%3Aafter%20%7B%20display%3A%20none%3B%20%7D%0A%20%20%20%20%20%20.seed-note%20%7B%20padding%3A%2018px%200%200%3B%20%7D%0A%20%20%20%20%7D%0A%20%20%20%20%40media%20(max-width%3A%20560px)%20%7B%0A%20%20%20%20%20%20.masthead%20%7B%20align-items%3A%20start%3B%20flex-direction%3A%20column%3B%20%7D%0A%20%20%20%20%20%20.seed-gate%20%7B%20padding%3A%2024px%2018px%3B%20gap%3A%2018px%3B%20%7D%0A%20%20%20%20%20%20.seed-copy%20h2%20%7B%20margin%3A%2010px%200%3B%20font-size%3A%20clamp(2rem%2C%2010vw%2C%202.8rem)%3B%20%7D%0A%20%20%20%20%20%20.seed-copy%20p%20%7B%20font-size%3A%201.05rem%3B%20%7D%0A%20%20%20%20%20%20.seed-field%20%7B%20margin-top%3A%2018px%3B%20%7D%0A%20%20%20%20%20%20.seed-field%20textarea%20%7B%20min-height%3A%20130px%3B%20%7D%0A%20%20%20%20%20%20.transcript%20%7B%20min-height%3A%20250px%3B%20max-height%3A%20min(48vh%2C%20300px)%3B%20padding-bottom%3A%2018px%3B%20%7D%0A%20%20%20%20%20%20.who%20%7B%20flex-wrap%3A%20wrap%3B%20gap%3A%206px%3B%20%7D%0A%20%20%20%20%20%20.who%20span%20%7B%20flex-basis%3A%20100%25%3B%20%7D%0A%20%20%20%20%20%20.message.gm%20p%3Afirst-letter%20%7B%20font-size%3A%202.2em%3B%20%7D%0A%20%20%20%20%20%20.composer-row%20%7B%20flex-direction%3A%20column%3B%20align-items%3A%20stretch%3B%20%7D%0A%20%20%20%20%20%20%23action%20%7B%20min-height%3A%2092px%3B%20%7D%0A%20%20%20%20%20%20.button%20%7B%20width%3A%20100%25%3B%20%7D%0A%20%20%20%20%20%20.seed-options%20%7B%20grid-template-columns%3A%201fr%3B%20%7D%0A%20%20%20%20%7D%0A%20%20" />
+</head>
+<body>
+  <main class="desk">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">A small persistent story engine</p>
+        <h1>Neverending Quest</h1>
+      </div>
+      <p>One campaign. A living world. Write what your character does, then see what the world remembers.</p>
+    </header>
+
+    <section id="seedGate" class="seed-gate" aria-labelledby="seedHeading">
+      <div class="seed-copy">
+        <span class="label">The first page</span>
+        <h2 id="seedHeading">What world are we opening?</h2>
+        <p>Bring a premise, a setting, a character, or a whole campaign bible. The seed becomes the source of truth for everything the Game Master remembers.</p>
+        <div class="seed-field">
+          <label class="label" for="seedInput">Campaign seed</label>
+          <textarea id="seedInput" maxlength="10000" placeholder="A generation ship wakes above a world that remembers every visitor..." required aria-describedby="seedStatus"></textarea>
+          <div class="seed-meta meta">
+            <span>Paste a campaign bible or write a sentence.</span>
+            <span id="seedCount">0 / 10000</span>
+          </div>
+        </div>
+        <div class="seed-options">
+          <div class="seed-field">
+            <label class="label" for="seedCampaignName">Campaign title <span class="folio">(optional)</span></label>
+            <input id="seedCampaignName" maxlength="60" placeholder="Name this volume" />
+          </div>
+          <div class="seed-field">
+            <label class="label" for="seedPlayerName">Your character <span class="folio">(optional)</span></label>
+            <input id="seedPlayerName" maxlength="60" placeholder="Who enters the story?" />
+          </div>
+        </div>
+        <button id="startCampaign" class="button" type="button" aria-controls="book">Open the book</button>
+        <p id="seedStatus" class="seed-status status" role="status"></p>
+      </div>
+      <aside class="seed-note">
+        <span class="label">A living campaign</span>
+        <p>Every turn will carry this seed forward with the player sheet, the recent pages, and the facts the world has earned.</p>
+        <blockquote>“The page is blank only once.”</blockquote>
+        <cite>Neverending Quest</cite>
+      </aside>
+    </section>
+
+    <section class="book" id="book" aria-label="Neverending Quest campaign" hidden>
+      <article class="story-page">
+        <div class="page-kicker">
+          <span class="label">The story</span>
+          <span class="folio meta" id="turnCount">turn 0</span>
+        </div>
+        <div id="transcript" class="transcript" aria-live="polite"></div>
+        <form id="composer" class="composer">
+          <div class="composer-row">
+            <textarea id="action" placeholder="What do you do?" aria-label="Character action"></textarea>
+            <button id="submit" class="button" type="submit">Turn</button>
+          </div>
+          <p class="helper">Enter a decision, a question, or a quiet mistake. Ctrl/Cmd + Enter submits.</p>
+        </form>
+        <p id="status" class="status-line status" role="status"></p>
+        <div id="illustration" class="illustration" hidden></div>
+      </article>
+
+      <aside class="memory-page">
+        <span class="label">Campaign desk</span>
+        <h2 id="campaignTitle">Untitled campaign</h2>
+        <p class="subhead">A living campaign, kept page by page.</p>
+
+        <div class="setup">
+          <label class="label" for="campaignName">Campaign name</label>
+          <input id="campaignName" value="Untitled campaign" maxlength="60" />
+          <label class="label" for="playerName">Player character</label>
+          <input id="playerName" placeholder="Name" maxlength="60" />
+          <label class="label" for="playerConcept">Character note</label>
+          <input id="playerConcept" placeholder="Who are you here?" maxlength="140" />
+          <button id="saveSetup" class="button quiet" type="button">Save desk</button>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Campaign memory">
+          <button id="tab-sheet" class="tab active" data-pane="sheet" type="button" role="tab" aria-selected="true" aria-controls="memoryView">Sheet</button>
+          <button id="tab-world" class="tab" data-pane="world" type="button" role="tab" aria-selected="false" aria-controls="memoryView">World</button>
+          <button id="tab-dossiers" class="tab" data-pane="dossiers" type="button" role="tab" aria-selected="false" aria-controls="memoryView">Dossiers</button>
+          <button id="tab-beats" class="tab" data-pane="beats" type="button" role="tab" aria-selected="false" aria-controls="memoryView">Beats</button>
+          <button id="tab-quests" class="tab" data-pane="quests" type="button" role="tab" aria-selected="false" aria-controls="memoryView">Quests</button>
+        </div>
+        <div id="memoryView" class="memory-view" role="tabpanel" aria-labelledby="tab-sheet" tabindex="0"></div>
+        <details class="state-editor">
+          <summary>Edit campaign state</summary>
+          <p class="helper">Advanced editing: change the JSON, then save. Export a backup first.</p>
+          <textarea id="stateEditor" spellcheck="false" aria-label="Editable campaign state"></textarea>
+          <div class="state-editor-actions">
+            <button id="saveStateEditor" class="button quiet" type="button">Save state</button>
+            <button id="refreshStateEditor" class="button quiet" type="button">Reload state</button>
+          </div>
+        </details>
+
+        <div class="tool-row">
+          <button id="illustrate" class="button quiet" type="button">Illustrate scene</button>
+          <button id="export" class="button quiet" type="button">Export</button>
+          <label class="button quiet" for="importFile">Import</label>
+          <input id="importFile" type="file" accept="application/json" />
+          <button id="reset" class="button quiet" type="button">New campaign</button>
+        </div>
+      </aside>
+      <span class="candle" aria-hidden="true"></span>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'neverending-quest-perchance-v1';
+
+    const blankState = (seed = '') => ({
+      seed,
+      started: false,
+      activePane: 'sheet',
+      campaignName: 'Untitled campaign',
+      player: { name: '', concept: '', inventory: [], notes: '' },
+      world: '',
+      dossiers: {},
+      storyBeats: [],
+      questLog: [],
+      transcript: [],
+      rollHistory: [],
+      turn: 0,
+      illustration: null
+    });
+
+    const PANES = ['sheet', 'world', 'dossiers', 'beats', 'quests'];
+
+    function normalizeState(candidate) {
+      const source = candidate && typeof candidate === 'object' ? candidate : {};
+      const seed = String(source.seed ?? source.world ?? '').trim();
+      const base = blankState(seed);
+      const player = source.player && typeof source.player === 'object' ? source.player : {};
+      const dossiers = source.dossiers && typeof source.dossiers === 'object' ? source.dossiers : {};
+      const next = {
+        ...base,
+        ...source,
+        seed,
+        campaignName: String(source.campaignName || base.campaignName).trim() || base.campaignName,
+        activePane: PANES.includes(source.activePane) ? source.activePane : base.activePane,
+        player: {
+          ...base.player,
+          ...player,
+          name: String(player.name || ''),
+          concept: String(player.concept || ''),
+          inventory: Array.isArray(player.inventory) ? player.inventory.map((item) => String(item)).filter(Boolean) : [],
+          notes: String(player.notes || '')
+        },
+        world: String(source.world || ''),
+        dossiers: Object.fromEntries(Object.entries(dossiers).map(([key, dossier]) => {
+          const value = dossier && typeof dossier === 'object' ? dossier : {};
+          return [key, {
+            name: String(value.name || key),
+            kind: String(value.kind || 'other'),
+            facts: Array.isArray(value.facts) ? value.facts.map((fact) => String(fact)).filter(Boolean) : []
+          }];
+        })),
+        storyBeats: Array.isArray(source.storyBeats) ? source.storyBeats.map(normalizeStoryBeat).filter(Boolean) : [],
+        questLog: Array.isArray(source.questLog) ? source.questLog.map((quest) => String(quest)).filter(Boolean) : [],
+        transcript: Array.isArray(source.transcript) ? source.transcript
+          .filter((message) => message && ['gm', 'player', 'roll'].includes(message.role))
+          .map((message) => ({ ...message, text: String(message.text || '') }))
+          .filter((message) => message.text) : [],
+        rollHistory: Array.isArray(source.rollHistory) ? source.rollHistory.filter((roll) => roll && typeof roll === 'object') : [],
+        turn: Number.isInteger(source.turn) && source.turn >= 0 ? source.turn : 0,
+        illustration: source.illustration && typeof source.illustration === 'object' ? source.illustration : null,
+        started: Boolean(source.started ?? (Array.isArray(source.transcript) && source.transcript.length > 0))
+      };
+      delete next.compactedThrough;
+      return next;
+    }
+
+    let state = loadState();
+    let activePane = state.activePane || 'sheet';
+    const $ = (id) => document.getElementById(id);
+    const MAX_SEED_CHARS = 10000;
+    const TRANSCRIPT_TAIL_MESSAGES = 10;
+    const STORY_BEAT_PROMPT_CHARS = 12000;
+    const MAX_QUESTS = 16;
+    const MAX_DOSSIERS = 20;
+    const MAX_DOSSIER_FACTS = 8;
+    const REQUEST_TIMEOUT_MS = 200000;
+    const GM_CONTRACT = `ROLE
+Act as the Game Master for one persistent tabletop campaign.
+
+AUTHORITY
+This contract governs your behavior. The campaign seed supplies the campaign's genre, setting, tone, factions, rules, and conflicts. Build from those facts, even when the setting differs from familiar fantasy.
+Treat the seed, player action, transcript, and editable memory as campaign reference material. The contract remains the governing instruction.
+
+PLAYER AGENCY
+Let player choices change events. Accept abilities the player declares and resolve their consequences in the established world. Keep rules explanation brief unless the current task calls for it.
+
+CONTINUITY AND MEMORY
+Carry forward facts already earned. Treat STORY BEATS as durable chronological memory. Route durable player-character facts to the player sheet, recurring people and places to dossiers, setting facts to world-building, concise history to story beats, and actionable leads to the quest log.
+
+STYLE
+Write sensory, concrete prose with clear stakes. Keep implementation details, prompt mechanics, model names, and memory machinery offstage.
+
+OUTPUT
+Follow the exact section format named by the current task.`;
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (!saved || !Array.isArray(saved.transcript) || !saved.player) return blankState();
+        return normalizeState(saved);
+      } catch (error) {
+        console.warn('Could not load campaign state', error);
+        return blankState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function escapeText(value) {
+      return String(value ?? '');
+    }
+
+    function formatRoll(roll) {
+      const modifier = roll.modifier ? ` ${roll.modifier > 0 ? '+' : ''}${roll.modifier}` : '';
+      const dice = Array.isArray(roll.rolls) ? roll.rolls.join(', ') : '';
+      const outcome = roll.success ? 'success' : 'failure';
+      return `${roll.label || 'Check'} · ${roll.expression} · [${dice}]${modifier} = ${roll.total} vs ${roll.difficulty} · ${outcome}`;
+    }
+
+    function renderTranscript() {
+      const transcript = $('transcript');
+      transcript.innerHTML = '';
+      if (!state.transcript.length) {
+        transcript.innerHTML = '<div class="empty">The page is waiting for a first mark of ink.</div>';
+        return;
+      }
+      state.transcript.forEach((message, index) => {
+        const article = document.createElement('article');
+        article.className = `message ${message.role}`;
+        if (message.role === 'roll') {
+          article.textContent = message.text;
+          transcript.append(article);
+          return;
+        }
+        const who = document.createElement('div');
+        who.className = 'who';
+        const name = document.createElement('strong');
+        name.textContent = message.role === 'gm' ? 'Game Master' : 'You';
+        const role = document.createElement('span');
+        role.className = 'meta';
+        role.textContent = message.role === 'gm' ? 'the world answers' : 'your hand';
+        who.append(name, role);
+        const edit = document.createElement('button');
+        edit.className = 'message-edit';
+        edit.type = 'button';
+        edit.textContent = 'Edit';
+        edit.addEventListener('click', () => beginMessageEdit(index, article));
+        who.append(edit);
+        const prose = document.createElement('p');
+        prose.textContent = escapeText(message.text);
+        article.append(who, prose);
+        transcript.append(article);
+      });
+      transcript.scrollTop = transcript.scrollHeight;
+      $('turnCount').textContent = `turn ${state.turn}`;
+    }
+
+    function beginMessageEdit(index, article) {
+      const message = state.transcript[index];
+      if (!message || message.role === 'roll' || article.querySelector('.message-editor')) return;
+      article.innerHTML = '';
+      const editor = document.createElement('textarea');
+      editor.className = 'message-editor';
+      editor.value = message.text;
+      editor.setAttribute('aria-label', `${message.role === 'gm' ? 'Game Master' : 'Player'} message`);
+      const actions = document.createElement('div');
+      actions.className = 'message-edit-actions';
+      const save = document.createElement('button');
+      save.className = 'button quiet';
+      save.type = 'button';
+      save.textContent = 'Save revision';
+      save.addEventListener('click', () => {
+        const text = editor.value.trim();
+        if (!text) return;
+        state.transcript[index].text = text;
+        saveState();
+        renderTranscript();
+        setStatus('Message revised. Memory fields were left unchanged.');
+      });
+      const cancel = document.createElement('button');
+      cancel.className = 'button quiet';
+      cancel.type = 'button';
+      cancel.textContent = 'Cancel';
+      cancel.addEventListener('click', renderTranscript);
+      actions.append(save, cancel);
+      article.append(editor, actions);
+      editor.focus();
+    }
+
+    function renderMemory() {
+      $('campaignTitle').textContent = state.campaignName;
+      $('campaignName').value = state.campaignName;
+      $('playerName').value = state.player.name;
+      $('playerConcept').value = state.player.concept;
+      const view = $('memoryView');
+      view.setAttribute('aria-labelledby', `tab-${activePane}`);
+      if (activePane === 'sheet') {
+        view.textContent = `PLAYER SHEET\n\n${state.player.name || 'Unnamed traveler'}\n${state.player.concept || 'No character note yet.'}\n\nInventory\n${state.player.inventory.map((item) => `• ${item}`).join('\n')}\n\nNotes\n${state.player.notes || 'Nothing written.'}`;
+      } else if (activePane === 'world') {
+        view.textContent = `CAMPAIGN SEED\n\n${state.seed}\n\nWORLD-BUILDING\n\n${state.world || 'The world is still taking shape.'}`;
+      } else if (activePane === 'dossiers') {
+        view.textContent = Object.values(state.dossiers).map((dossier) => `${dossier.name.toUpperCase()} · ${dossier.kind}\n${dossier.facts.map((fact) => `• ${fact}`).join('\n')}`).join('\n\n');
+      } else if (activePane === 'beats') {
+        view.textContent = `STORY BEATS\n\n${state.storyBeats.length ? state.storyBeats.map((beat) => `• ${beat}`).join('\n') : 'The chronicle is still blank.'}`;
+      } else {
+        view.textContent = `QUEST LOG\n\n${state.questLog.length ? state.questLog.map((quest) => `• ${quest}`).join('\n') : 'No open leads.'}`;
+      }
+      document.querySelectorAll('.tab').forEach((tab) => {
+        const selected = tab.dataset.pane === activePane;
+        tab.classList.toggle('active', selected);
+        tab.setAttribute('aria-selected', String(selected));
+      });
+      const stateEditor = $('stateEditor');
+      if (stateEditor && document.activeElement !== stateEditor) stateEditor.value = JSON.stringify(state, null, 2);
+    }
+    function refreshStateEditor() {
+      const stateEditor = $('stateEditor');
+      if (stateEditor) stateEditor.value = JSON.stringify(state, null, 2);
+    }
+
+    function saveEditableState() {
+      try {
+        const edited = JSON.parse($('stateEditor').value);
+        if (!edited || typeof edited.seed !== 'string' || !edited.seed.trim() || !edited.player) {
+          throw new Error('State needs a campaign seed and player object.');
+        }
+        state = normalizeState(edited);
+        activePane = state.activePane;
+        saveState();
+        render();
+        setStatus('Campaign state saved.');
+      } catch (error) {
+        setStatus(`State was not saved: ${error.message}`);
+      }
+    }
+
+    function renderIllustration() {
+      const target = $('illustration');
+      if (!state.illustration) {
+        target.hidden = true;
+        target.innerHTML = '';
+        return;
+      }
+      target.hidden = false;
+      target.innerHTML = '';
+      const image = document.createElement('img');
+      image.src = state.illustration.url;
+      image.alt = 'An illustration of the latest story scene';
+      const caption = document.createElement('div');
+      caption.className = 'meta';
+      caption.textContent = 'a picture pinned to the latest turn';
+      target.append(image, caption);
+    }
+
+    function renderSeedGate() {
+      const firstRun = !state.started;
+      $('seedGate').hidden = !firstRun;
+      $('book').hidden = firstRun;
+      if (!firstRun) return;
+      $('seedInput').value = state.seed;
+      $('seedCampaignName').value = state.campaignName === 'Untitled campaign' ? '' : state.campaignName;
+      $('seedPlayerName').value = state.player.name;
+      $('seedCount').textContent = `${state.seed.length} / ${MAX_SEED_CHARS}`;
+      if (!state.seed && document.activeElement === document.body) $('seedInput').focus();
+    }
+
+    function render() {
+      renderSeedGate();
+      renderTranscript();
+      renderMemory();
+      renderIllustration();
+    }
+
+    function setStatus(message, busy = false) {
+      $('status').textContent = message;
+      $('status').classList.toggle('busy', busy);
+      $('composer').setAttribute('aria-busy', String(busy));
+    }
+
+    function setSeedStatus(message, busy = false) {
+      $('seedStatus').textContent = message;
+      $('seedStatus').classList.toggle('busy', busy);
+      $('seedGate').setAttribute('aria-busy', String(busy));
+    }
+
+    function stopRequest(request) {
+      try {
+        if (request && typeof request.stop === 'function') request.stop();
+      } catch (error) {
+        console.warn('Could not stop timed-out generation', error);
+      }
+    }
+
+    function runAi(prompt, timeoutMs, timeoutMessage) {
+      try {
+        const request = ai(prompt);
+        return new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            stopRequest(request);
+            reject(new Error(timeoutMessage));
+          }, timeoutMs);
+          Promise.resolve(request).then((value) => {
+            clearTimeout(timer);
+            resolve(value);
+          }, (error) => {
+            clearTimeout(timer);
+            reject(error);
+          });
+        });
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+
+    function clipPrompt(value, maxChars) {
+      const text = String(value ?? '').trim();
+      if (text.length <= maxChars) return text;
+      const suffix = '\n[older detail clipped]';
+      return `${text.slice(0, Math.max(0, maxChars - suffix.length)).trimEnd()}${suffix}`;
+    }
+
+    function promptList(items, maxItems, maxChars) {
+      const selected = items.slice(-maxItems);
+      return clipPrompt(selected.join(' | '), maxChars) || 'none';
+    }
+    function normalizeStoryBeat(raw) {
+      const text = String(raw || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+      if (!text || /^none\.?$/i.test(text)) return '';
+      const maxChars = 360;
+      return text.length <= maxChars ? text : `${text.slice(0, maxChars - 1).trimEnd()}…`;
+    }
+
+    function storyBeatPrompt() {
+      const beats = state.storyBeats.map(normalizeStoryBeat).filter(Boolean);
+      if (!beats.length) return 'none';
+      const lines = beats.map((beat) => `- ${beat}`);
+      const full = lines.join('\n');
+      if (full.length <= STORY_BEAT_PROMPT_CHARS) return full;
+      const marker = '[older beats remain in local storage; recent beats shown below]';
+      const recent = [];
+      let used = marker.length + 1;
+      for (let index = lines.length - 1; index >= 0; index -= 1) {
+        const line = lines[index];
+        if (used + line.length + 1 > STORY_BEAT_PROMPT_CHARS) break;
+        recent.unshift(line);
+        used += line.length + 1;
+      }
+      return `${marker}\n${recent.join('\n')}`;
+    }
+
+
+    function dossierPrompt() {
+      const dossiers = Object.values(state.dossiers).slice(-MAX_DOSSIERS).map((dossier) => {
+        const facts = dossier.facts.slice(-MAX_DOSSIER_FACTS).join('; ');
+        return `${dossier.name} (${dossier.kind}): ${facts || 'no standing facts'}`;
+      }).join('\n');
+      return clipPrompt(dossiers, 12000) || 'none';
+    }
+
+    function memoryPrompt() {
+      const rolls = (state.rollHistory || []).slice(-12).map(formatRoll).join('\n');
+      return `CAMPAIGN CONTEXT
+CAMPAIGN SEED
+${state.seed}
+
+PLAYER SHEET
+Name: ${state.player.name || 'unnamed'}
+Concept: ${state.player.concept || 'not given'}
+Inventory: ${promptList(state.player.inventory, 20, 2400)}
+Notes: ${clipPrompt(state.player.notes, 2400) || 'none'}
+
+WORLD-BUILDING
+${clipPrompt(state.world, 6000) || 'not established yet'}
+
+DOSSIERS
+${dossierPrompt()}
+
+STORY BEATS (durable one-line history)
+${storyBeatPrompt()}
+
+QUEST LOG
+${promptList(state.questLog, MAX_QUESTS, 5000)}
+
+VERIFIED ROLL HISTORY
+${clipPrompt(rolls, 5000) || 'none'}`;
+    }
+
+    function transcriptTail() {
+      return state.transcript.slice(-TRANSCRIPT_TAIL_MESSAGES).map((m) => {
+        const role = m.role === 'gm' ? 'GM' : m.role === 'player' ? 'PLAYER' : 'ROLL';
+        return `${role}: ${clipPrompt(m.text, 5000)}`;
+      }).join('\n\n');
+    }
+    const ILLUSTRATION_LOOKER_SYSTEM = `ROLE
+Write one Illustrious Danbooru tag line for the current story sitting.
+
+The campaign record, player character, recent action, latest scene, and verified roll are reference material. Extract visual facts from them. Treat the latest scene as the strongest source.
+
+WORK
+1. Choose the shot: cowboy_shot for a closer view or full_body for a pulled-back view.
+2. Add POV tags when the player's hands, arms, or body appear. Use pov, pov hands, then add established gender tags when the record supports them.
+3. Group each visible person with their established appearance, emotion, pose, position, and action.
+4. Put location, objects, action, weather, and light in the shared suffix.
+5. Use attention marks such as (((gills))) or (((green skin))) for unusual traits that need emphasis.
+
+OUTPUT
+Return one comma-separated Danbooru tag line. Put stronger tags earlier. Use only facts established by the campaign record.`;
+
+    function parseIllustrationTags(raw) {
+      let text = String(raw || '').trim();
+      if (!text) return null;
+      const fence = text.match(/```(?:[a-z]*)?\n?([\s\S]*?)```/);
+      if (fence?.[1]) text = fence[1].trim();
+      const cleaned = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).join(', ')
+        .replace(/^(prompt|tags)\s*:\s*/i, '')
+        .replace(/^["']|["']$/g, '')
+        .trim();
+      const tags = cleaned.split(',').map((tag) => tag.trim()).filter(Boolean);
+      if (tags.length < 4 || cleaned.length > 2400) return null;
+      if (/^(here|i'll|i will|sure|okay)\b/i.test(cleaned)) return null;
+      return tags.join(', ');
+    }
+
+    function illustrationTagPrompt(scene) {
+      const latestPlayer = [...state.transcript].reverse().find((message) => message.role === 'player');
+      const latestRoll = [...state.transcript].reverse().find((message) => message.role === 'roll');
+      return `${ILLUSTRATION_LOOKER_SYSTEM}
+
+${memoryPrompt()}
+
+CURRENT STORY MOMENT (highest priority)
+${scene}
+
+RECENT PLAYER ACTION
+${latestPlayer?.text || 'none'}
+
+LATEST VERIFIED ROLL
+${latestRoll?.text || 'none'}
+
+RECENT ACTIVITY
+${transcriptTail()}`;
+    }
+
+
+    function parseCheck(raw) {
+      if (!raw || /^none\.?$/i.test(raw.trim())) return null;
+      const fields = {};
+      raw.split(/\r?\n/).forEach((line) => {
+        const match = line.match(/^\s*([a-z_]+)\s*:\s*(.*?)\s*$/i);
+        if (match) fields[match[1].toLowerCase()] = match[2];
+      });
+      return {
+        label: fields.label || 'Check',
+        expression: fields.expression || '',
+        difficulty: fields.difficulty || fields.dc || '',
+        mode: fields.mode || 'normal'
+      };
+    }
+
+    function parseTurn(raw) {
+      const text = String(raw || '').trim();
+      const section = (name, nextNames) => {
+        const start = text.search(new RegExp(`\\[${name}\\]`, 'i'));
+        if (start < 0) return '';
+        const bodyStart = start + name.length + 2;
+        const rest = text.slice(bodyStart);
+        const endings = nextNames.map((next) => rest.search(new RegExp(`\\[${next}\\]`, 'i'))).filter((index) => index >= 0);
+        return rest.slice(0, endings.length ? Math.min(...endings) : rest.length).trim();
+      };
+      const check = parseCheck(section('CHECK', ['REPLY', 'WORLD', 'STORY_BEAT', 'QUEST', 'DOSSIER']));
+      const reply = section('REPLY', ['WORLD', 'STORY_BEAT', 'QUEST', 'DOSSIER']) || (check ? '' : text);
+      const world = section('WORLD', ['STORY_BEAT', 'QUEST', 'DOSSIER']);
+      const beat = section('STORY_BEAT', ['QUEST', 'DOSSIER']);
+      const quest = section('QUEST', ['DOSSIER']);
+      const dossier = section('DOSSIER', []);
+      return { reply, world, beat, quest, dossier, check };
+    }
+
+
+    function slug(value) {
+      return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'unknown';
+    }
+    function applyMemory(parsed) {
+      if (parsed.world && !/^none\.?$/i.test(parsed.world)) state.world = parsed.world;
+      const beat = normalizeStoryBeat(parsed.beat);
+      if (beat && !state.storyBeats.includes(beat)) state.storyBeats.push(beat);
+      if (parsed.quest && !/^none\.?$/i.test(parsed.quest)) {
+        if (!state.questLog.includes(parsed.quest)) state.questLog.push(parsed.quest);
+      }
+      if (parsed.dossier) {
+        parsed.dossier.split('\n').map((line) => line.replace(/^[-*•]\s*/, '').trim()).filter(Boolean).forEach((line) => {
+          const parts = line.split('|').map((part) => part.trim());
+          if (parts.length < 2) return;
+          const name = parts[0];
+          const fact = parts.slice(1).join(' | ');
+          const key = slug(name);
+          state.dossiers[key] = state.dossiers[key] || { name, kind: 'other', facts: [] };
+          if (!state.dossiers[key].facts.includes(fact)) state.dossiers[key].facts.push(fact);
+        });
+      }
+    }
+
+    function secureDie(sides) {
+      const limit = Math.floor(0x100000000 / sides) * sides;
+      const values = new Uint32Array(1);
+      do crypto.getRandomValues(values); while (values[0] >= limit);
+      return (values[0] % sides) + 1;
+    }
+
+    function parseDiceExpression(expression) {
+      const match = String(expression || '').replace(/\s+/g, '').toLowerCase().match(/^(\d+)?d(\d+)([+-]\d+)?$/);
+      if (!match) throw new Error(`Unsupported dice expression: ${expression || 'empty'}. Use NdS+M.`);
+      const count = Number(match[1] || 1);
+      const sides = Number(match[2]);
+      const modifier = Number(match[3] || 0);
+      if (!Number.isInteger(count) || count < 1 || count > 20 || !Number.isInteger(sides) || sides < 2 || sides > 1000 || Math.abs(modifier) > 100) {
+        throw new Error('Dice checks must use 1-20 dice, 2-1000 sides, and a modifier from -100 to +100.');
+      }
+      return { count, sides, modifier, expression: `${count}d${sides}${modifier ? (modifier > 0 ? `+${modifier}` : modifier) : ''}` };
+    }
+
+    function resolveCheck(check) {
+      const dice = parseDiceExpression(check.expression);
+      const difficulty = Number(check.difficulty);
+      const mode = String(check.mode || 'normal').toLowerCase();
+      if (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 1000) throw new Error('The Game Master requested an invalid difficulty.');
+      if (!['normal', 'advantage', 'disadvantage'].includes(mode)) throw new Error('The Game Master requested an invalid roll mode.');
+      if (mode !== 'normal' && (dice.count !== 1 || dice.sides !== 20)) throw new Error('Advantage and disadvantage only apply to a d20 check.');
+      const rolls = [];
+      for (let index = 0; index < dice.count; index += 1) rolls.push(secureDie(dice.sides));
+      if (mode !== 'normal') rolls.push(secureDie(dice.sides));
+      const chosen = mode === 'advantage' ? Math.max(...rolls) : mode === 'disadvantage' ? Math.min(...rolls) : null;
+      const total = (chosen ?? rolls.reduce((sum, value) => sum + value, 0)) + dice.modifier;
+      const natural = chosen ?? (dice.count === 1 ? rolls[0] : null);
+      return {
+        id: `roll-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        label: String(check.label || 'Check').slice(0, 120),
+        expression: dice.expression,
+        difficulty,
+        mode,
+        rolls,
+        modifier: dice.modifier,
+        total,
+        success: total >= difficulty,
+        critical: dice.sides === 20 && dice.count === 1 && (natural === 20 || natural === 1)
+      };
+    }
+    function campaignOpeningPrompt() {
+      return `${GM_CONTRACT}
+
+OPENING TASK
+Complete these steps in order:
+1. Read CAMPAIGN SEED and PLAYER as campaign facts.
+2. Open at a specific location with the seed's pressures, people, objects, and visual details.
+3. Establish only facts supported by the seed. Give the player a concrete situation and a clear choice.
+4. Route durable facts into the matching memory sections.
+
+The opening is complete when [REPLY] contains two to four paragraphs and ends with a clear invitation for the player to act.
+
+Return exactly these sections:
+[REPLY]
+Two to four paragraphs that open the first scene. End with a clear invitation for the player to act.
+[WORLD]
+One compact setting brief with the place, current pressure, and one immediately understandable detail.
+[STORY_BEAT]
+One sentence describing only the durable event that just happened, or none.
+[QUEST]
+One open actionable lead, or none.
+[DOSSIER]
+Zero or more lines in the form Name | standing fact. Add durable facts about recurring people or places, or none.
+
+CAMPAIGN SEED
+${state.seed}
+
+PLAYER
+Name: ${state.player.name || 'unnamed'}
+Concept: ${state.player.concept || 'not given'}`;
+    }
+
+    function turnPrompt(action, verifiedRoll = '') {
+      const checkInstruction = verifiedRoll
+        ? `ROLL RESOLUTION
+${verifiedRoll}
+This result is final for the turn. Use it once, then write the consequences it creates.`
+        : `CHECK DECISION
+Choose a check when the action has a meaningful uncertain outcome.
+When a check is needed, return [CHECK] with these fields and finish this response there:
+label: short reason
+expression: NdS+M (for example, d20+2)
+difficulty: whole-number target
+mode: normal, advantage, or disadvantage
+When the action has a clear outcome, skip [CHECK] and write the final response sections.`;
+      return `${GM_CONTRACT}
+
+TURN TASK
+Complete these steps in order:
+1. Read CAMPAIGN SEED, campaign memory, RECENT TRANSCRIPT, and PLAYER ACTION as the current campaign record.
+2. Resolve the action inside the established setting. Preserve earned facts and let the choice change events.
+3. ${verifiedRoll ? 'Apply the verified roll below to the action and describe its consequences.' : 'Choose the check or final-response path described below.'}
+4. Route durable changes into the matching memory sections.
+
+${checkInstruction}
+
+FINAL RESPONSE
+When this turn reaches the final response path, return exactly these sections:
+[REPLY]
+Two to five paragraphs of player-facing prose. End with a clear invitation for the player to act.
+[WORLD]
+An updated compact setting brief when a durable setting fact changed, otherwise none.
+[STORY_BEAT]
+One sentence describing only the durable event that just happened, or none.
+[QUEST]
+One open actionable lead created or sharpened by this turn, or none.
+[DOSSIER]
+Zero or more lines in the form Name | standing fact. Add durable facts about recurring people or places, or none.
+
+The turn is complete when the response follows one path: a complete [CHECK] request, or a complete final response with every section present.
+
+${memoryPrompt()}
+
+RECENT TRANSCRIPT
+${transcriptTail()}
+
+PLAYER ACTION
+${action}`;
+    }
+
+    const openCampaign = async () => {
+      const seed = $('seedInput').value.trim();
+      if (!seed) {
+        setSeedStatus('Write a campaign seed before opening the book.');
+        $('seedInput').focus();
+        return;
+      }
+      const campaignName = $('seedCampaignName').value.trim() || 'Untitled campaign';
+      const playerName = $('seedPlayerName').value.trim();
+      state = {
+        ...blankState(seed),
+        campaignName,
+        player: { name: playerName, concept: '', inventory: [], notes: '' }
+      };
+      render();
+      $('startCampaign').disabled = true;
+      setSeedStatus('The first page is turning…', true);
+      try {
+        const raw = await runAi(campaignOpeningPrompt(), REQUEST_TIMEOUT_MS, 'The opening took too long. Your seed is still here; try again.');
+        const parsed = parseTurn(raw);
+        if (!parsed.reply) throw new Error('The opening returned no scene.');
+        state.started = true;
+        state.transcript = [{ role: 'gm', text: parsed.reply }];
+        state.turn = 0;
+        applyMemory(parsed);
+        if (!state.world) state.world = state.seed;
+        saveState();
+        render();
+        setStatus('The book is open.');
+      } catch (error) {
+        console.error(error);
+        state.started = false;
+        render();
+        setSeedStatus('The book would not open. Your seed is still here; try again.', false);
+      } finally {
+        $('startCampaign').disabled = false;
+      }
+    };
+
+    function runImage(prompt, timeoutMs, timeoutMessage) {
+      try {
+        const request = image(prompt);
+        return new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            stopRequest(request);
+            reject(new Error(timeoutMessage));
+          }, timeoutMs);
+          Promise.resolve(request).then((value) => {
+            clearTimeout(timer);
+            resolve(value);
+          }, (error) => {
+            clearTimeout(timer);
+            reject(error);
+          });
+        });
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    }
+
+    async function submitTurn() {
+      const action = $('action').value.trim();
+      if (!action) return;
+      $('submit').disabled = true;
+      $('action').disabled = true;
+      setStatus('The ink is moving…', true);
+      state.transcript.push({ role: 'player', text: action });
+      renderTranscript();
+      let roll = null;
+      try {
+        let parsed = parseTurn(await runAi(turnPrompt(action), REQUEST_TIMEOUT_MS, 'The Game Master took too long to answer. Try the turn again.'));
+        if (parsed.check) {
+          roll = resolveCheck(parsed.check);
+          state.rollHistory.push(roll);
+          state.transcript.push({ role: 'roll', text: formatRoll(roll), rollId: roll.id });
+          renderTranscript();
+          parsed = parseTurn(await runAi(turnPrompt(action, formatRoll(roll)), REQUEST_TIMEOUT_MS, 'The Game Master took too long to resolve the roll. Try the turn again.'));
+          if (parsed.check) throw new Error('The Game Master requested a second roll before resolving the first.');
+        }
+        if (!parsed.reply) throw new Error('The Game Master returned no scene.');
+        state.transcript.push({ role: 'gm', text: parsed.reply });
+        state.turn += 1;
+        applyMemory(parsed);
+        saveState();
+        $('action').value = '';
+        setStatus(roll ? `Roll resolved: ${formatRoll(roll)}` : 'Turn committed to this browser.');
+        render();
+      } catch (error) {
+        console.error(error);
+        if (roll) {
+          state.rollHistory = state.rollHistory.filter((entry) => entry.id !== roll.id);
+          if (state.transcript.at(-1)?.role === 'roll') state.transcript.pop();
+        }
+        if (state.transcript.at(-1)?.role === 'player' && state.transcript.at(-1).text === action) state.transcript.pop();
+        renderTranscript();
+        setStatus('The ink dried badly. Try the turn again.');
+      } finally {
+        $('submit').disabled = false;
+        $('action').disabled = false;
+        $('action').focus();
+      }
+    }
+
+    async function illustrateLatest() {
+      const latest = [...state.transcript].reverse().find((m) => m.role === 'gm');
+      if (!latest) return;
+      $('illustrate').disabled = true;
+      setStatus('The illustrator is finding scene tags…', true);
+      try {
+        const raw = await runAi(illustrationTagPrompt(latest.text), REQUEST_TIMEOUT_MS, 'The illustrator took too long to describe the scene. Try again later.');
+        const prompt = parseIllustrationTags(raw);
+        if (!prompt) throw new Error('The illustrator returned no usable tag line.');
+        setStatus('The charcoal is sketching…', true);
+        const url = await runImage(prompt, REQUEST_TIMEOUT_MS, 'The illustration took too long. Try again later.');
+        state.illustration = { url, prompt };
+        saveState();
+        renderIllustration();
+        setStatus('Illustration pinned to the latest GM turn.');
+      } catch (error) {
+        console.error(error);
+        setStatus('The charcoal would not catch. Try again later.');
+      } finally {
+        $('illustrate').disabled = false;
+      }
+    }
+
+    function saveDesk() {
+      state.campaignName = $('campaignName').value.trim() || 'Untitled campaign';
+      state.player.name = $('playerName').value.trim();
+      state.player.concept = $('playerConcept').value.trim();
+      saveState();
+      renderMemory();
+      setStatus('Desk saved in this browser.');
+    }
+
+    function exportCampaign() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${slug(state.campaignName)}-campaign.json`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+      setStatus('Campaign exported.');
+    }
+
+    function importCampaign(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!imported || typeof imported.seed !== 'string' || !imported.seed.trim() || !Array.isArray(imported.transcript) || !imported.player) {
+            throw new Error('That file has no campaign seed or is not a Neverending Quest campaign.');
+          }
+          state = normalizeState({ ...imported, seed: imported.seed.trim(), started: true });
+          activePane = state.activePane || 'sheet';
+          state.activePane = activePane;
+          saveState();
+          render();
+          setStatus('Campaign imported.');
+        } catch (error) {
+          console.error(error);
+          setStatus(error.message || 'That file is not a Neverending Quest campaign.');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+    function resetCampaign() {
+      if (!confirm('Start a new campaign? The current book will be replaced.')) return;
+      state = blankState();
+      activePane = 'sheet';
+      saveState();
+      render();
+      setSeedStatus('A new page waits for a seed.');
+    }
+
+    $('seedInput').addEventListener('input', () => {
+      $('seedCount').textContent = `${$('seedInput').value.length} / ${MAX_SEED_CHARS}`;
+      if ($('seedStatus').textContent) setSeedStatus('');
+    });
+    $('startCampaign').addEventListener('click', openCampaign);
+    $('composer').addEventListener('submit', (event) => { event.preventDefault(); submitTurn(); });
+    $('action').addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); submitTurn(); }
+    });
+    $('saveSetup').addEventListener('click', saveDesk);
+    $('saveStateEditor').addEventListener('click', saveEditableState);
+    $('refreshStateEditor').addEventListener('click', refreshStateEditor);
+    $('illustrate').addEventListener('click', illustrateLatest);
+    $('export').addEventListener('click', exportCampaign);
+    $('importFile').addEventListener('change', importCampaign);
+    $('reset').addEventListener('click', resetCampaign);
+    document.querySelectorAll('.tab').forEach((tab) => tab.addEventListener('click', () => {
+      activePane = tab.dataset.pane;
+      state.activePane = activePane;
+      saveState();
+      renderMemory();
+    }));
+    const desktopViewportLayout = document.createElement('style');
+    desktopViewportLayout.textContent = '@media (min-width: 901px) { .desk { height: 100svh; min-height: 0; display: flex; flex-direction: column; } .book { flex: 1; min-height: 0; } .memory-page { min-height: 0; overflow-y: auto; scrollbar-color: var(--paper-deep) transparent; } }';
+    document.head.append(desktopViewportLayout);
+    render();
+  </script>
+</body>
+</html>
